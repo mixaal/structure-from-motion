@@ -68,7 +68,7 @@ for video in $VIDEOS/*.{mp4,avi,mov,mkv}; do
 
      # From some reason the structure is not what other tools expect
      mkdir -p "$process_dir/undistorted/sparse/0"
-     cp "$process_dir/undistorted/sparse/*bin" "$process_dir/undistorted/sparse/0/"
+     cp $process_dir/undistorted/sparse/*bin "$process_dir/undistorted/sparse/0/"
   }
 
   [ -f "$sparse_dir/points3D.txt" ] || {
