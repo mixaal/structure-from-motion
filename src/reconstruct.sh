@@ -20,7 +20,7 @@ for video in $VIDEOS/*.{mp4,avi,mov,mkv}; do
   process_dir="$SCENES/$video_base"
   images_dir="$process_dir/images"
   scene_db="$process_dir/database.db"
-  sparse_dir="$process_dir/Sparse"
+  sparse_dir="$process_dir/sparse"
   [ -d "$process_dir" ] || {
     echo "Processing video $video ---> $process_dir ..."
     mkdir -p "$process_dir"
@@ -58,6 +58,19 @@ for video in $VIDEOS/*.{mp4,avi,mov,mkv}; do
     --skip_retriangulation 1
 
   }
+  [ -d "$sparse_dir/undistorted" ] || {
+    echo "   ---> Undistorting images - useful for gaussian splatting... "
+     $COLMAP image_undistorter  \
+     --image_path "$images_dir"  \
+     --input_path "$sparse_dir/0" \
+     --output_path "$process_dir/undistorted" \
+     --output_type COLMAP
+
+     # From some reason the structure is not what other tools expect
+     mkdir -p "$process_dir/undistorted/sparse/0"
+     cp "$process_dir/undistorted/sparse/*bin" "$process_dir/undistorted/sparse/0/"
+  }
+
   [ -f "$sparse_dir/points3D.txt" ] || {
     echo "   ---> Exporting model for blender ... "
     $COLMAP model_converter \
