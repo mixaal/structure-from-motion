@@ -21,7 +21,7 @@ SCENES="$D/../Scenes"
 
 for d in $SCENES/*; do
   [ -d "$d" ] || continue
-  [ -d "$d/video_depth_map" ] || {
+  [ -d "$d/depth_maps_video" ] || {
     echo "Creating depth maps for $d ... "
     python "$D/video_depth.py" "$d"
   }
